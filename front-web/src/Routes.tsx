@@ -1,25 +1,26 @@
-import React from 'react';
-import {Switch,Route,BrowserRouter} from "react-router-dom";
-import Navbar from './core/components/Navbar';
-import Admin from './pages/Admin';
-import Catalog from './pages/Catalog';
-import Home from './pages/Home/index';
-const Routes = ()=>(
+import React from "react";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
+import Navbar from "./core/components/Navbar";
+import Admin from "./pages/Admin";
+import Catalog from "./pages/Catalog";
+import ProductDetails from "./pages/Catalog/components/ProductDetails";
+import Home from "./pages/Home/index";
+
+const Routes = () => (
     <BrowserRouter>
-        <Navbar/>
+        <Navbar />
         <Switch>
             <Route path="/" exact>
-                <Home/>
+                <Home />
             </Route>
-        </Switch>
-        <Switch>
-            <Route path="/catalog">
-                <Catalog/>
+            <Route path="/products" exact>
+                <Catalog />
             </Route>
-        </Switch>
-        <Switch>
+            <Route path="/products/:productId">
+                <ProductDetails/>
+            </Route>
             <Route path="/admin">
-                <Admin/>
+                <Admin />
             </Route>
         </Switch>
     </BrowserRouter>
