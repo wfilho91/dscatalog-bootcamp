@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { ReactComponent as ArrowIcon } from "../../../../core/assets/images/arrow.svg";
 import { Link, useParams } from "react-router-dom";
@@ -8,16 +8,18 @@ import { Product } from "../../../../core/types/Product";
 
 type ParamsType = {
   productId: string;
-}
+};
 const ProductDetails = () => {
   const { productId } = useParams<ParamsType>();
-
   const [product, setProduct] = useState<Product>();
-  console.log(product);
+  const [isLoading, setIsLoading] = useState(false);
+
+  
   useEffect(() => {
-    makeRequest({ url: `/products/${productId}` }).then(response =>
-      setProduct(response.data)
-    );
+    setIsLoading(true);
+    makeRequest({ url: `/products/${productId}` })
+      .then((response) => setProduct(response.data))
+      .finally(() => setIsLoading(false));
   }, [productId]);
 
   return (
@@ -29,15 +31,21 @@ const ProductDetails = () => {
         </Link>
         <div className="row">
           <div className="col-6 pr-5">
-            <div className="product-details-card text-center">
-              <img
-                src={product?.imgUrl}
-                alt={product?.name}
-                className="product-details-image"
-              />
-            </div>
-            <h1 className="product-details-name">{product?.name}</h1>
-            {product?.price && <ProductPrice price={product?.price} />}
+            {isLoading ? (
+              <h1>Carregando...</h1>
+            ) : (
+              <>
+                <div className="product-details-card text-center">
+                  <img
+                    src={product?.imgUrl}
+                    alt={product?.name}
+                    className="product-details-image"
+                  />
+                </div>
+                <h1 className="product-details-name">{product?.name}</h1>
+                {product?.price && <ProductPrice price={product?.price} />}
+              </>
+            )}
           </div>
           <div className="col-6 product-details-card">
             <h1 className="product-description-title">Decrição do Produto</h1>
@@ -47,6 +55,6 @@ const ProductDetails = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ProductDetails;
