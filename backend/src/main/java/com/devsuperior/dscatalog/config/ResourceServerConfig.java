@@ -1,5 +1,9 @@
 package com.devsuperior.dscatalog.config;
 
+import org.springframework.core.env.Environment;
+
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,7 +16,10 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-	private static final String[] PUBLIC = {"/oauth/token"};
+	@Autowired
+	private Environment env;
+	
+	private static final String[] PUBLIC = {"/oauth/token","/h2-console/**"};
 	private static final String[] OPERATOR_OR_ADMIN = {"/products/**","/categories/**"};
 	private static final String[] ADMIN = {"/users/**"};
 	
@@ -26,6 +33,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		
+		// Configuração para liberar acesso ao H2
+		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
+			http.headers().frameOptions().disable();
+		}
+		
 		http.authorizeRequests()
 		.antMatchers(PUBLIC).permitAll()
 		.antMatchers(HttpMethod.GET,OPERATOR_OR_ADMIN).permitAll()
