@@ -1,6 +1,9 @@
 # dscatalog-bootcamp
 
-Modelo Conceitual do DsCatalog
+#Projeto DsCatalog do Bootcamp DevSuperior
 
-![image](https://user-images.githubusercontent.com/74937912/117169323-64f33d80-ad9f-11eb-8f37-786b30082271.png)
+##O projeto consiste em um catálogo de produtos
+
+
+![dscatalog-modelo-conceitual](https://user-images.githubusercontent.com/74937912/117170054-0b3f4300-ada0-11eb-9578-a09322976a20.jpg)
 
